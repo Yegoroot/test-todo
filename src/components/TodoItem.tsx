@@ -8,11 +8,13 @@ export const TodoItem = ({ item }:{item: ITodoItem}) => {
   const dispatch = useDispatch()
 
   return (
-    <Box sx={{ p: 1, display: 'flex', gap: 1, alignItems: 'center' }}>
+    <Box
+      onClick={() => dispatch(changeItem({ completed: !completed, title, id }))}
+      sx={{ p: 1, display: 'flex', gap: 1, alignItems: 'center' }}
+    >
       <ToggleButton
         value="check"
         selected={completed}
-        onChange={() => dispatch(changeItem({ completed: !completed, title, id }))}
         sx={{ borderRadius: '50%', minHeight: 48, minWidth: 48 }}
       >
         {completed && <Check /> }
