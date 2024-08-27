@@ -3,10 +3,16 @@ import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { makeid } from '../../utils/makeId'
 
+export interface EditedProps {
+  id: string,
+  isEditing: boolean
+}
+
 export interface TodoItem {
   id: string
   title: string
   completed: boolean
+  isEditing: boolean
 }
 
 export interface TodoState {
@@ -21,23 +27,28 @@ const todosSlice = createSlice({
   name: 'todos',
   initialState,
   reducers: {
-    todoAdded(state, action: PayloadAction<Omit<TodoItem, 'completed' | 'id'>>) {
+    deleteTodo(state, action: PayloadAction<string>) {
+      const list = state.list.filter((t) => t.id !== action.payload)
+      state.list = list
+    },
+    todoAdded(state, action: PayloadAction<Omit<TodoItem, 'completed' | 'id' | 'isEditing'>>) {
       state.list.push({
-        id: makeid(),
         title: action.payload.title,
+        id: makeid(),
+        isEditing: false,
         completed: false,
       })
     },
-    changeItem(state, action: PayloadAction<TodoItem>) {
-      const list = state.list.map((t) => {
-        if (t.id === action.payload.id) {
-          return action.payload
-        } return t
-      })
+    changeItem(state, action: PayloadAction<Omit<TodoItem, 'isEditing'>>) {
+      const list = state.list.map((t) => (t.id === action.payload.id ? { ...action.payload, isEditing: false } : t))
       state.list = list
     },
+    setEditedTodo(state, { payload: { id, isEditing } }: PayloadAction<EditedProps>) {
+      const list = state.list.map((t) => (t.id === id ? { ...t, isEditing } : t))
+      state.list = list
+    }
   },
 })
 
-export const { todoAdded, changeItem } = todosSlice.actions
+export const { todoAdded, changeItem, deleteTodo, setEditedTodo } = todosSlice.actions
 export default todosSlice.reducer

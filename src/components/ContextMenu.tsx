@@ -1,11 +1,14 @@
 import { Box, Menu, MenuItem } from '@mui/material'
 import { useState, PropsWithChildren } from 'react'
+import { useDispatch } from 'react-redux'
+import { deleteTodo, setEditedTodo } from '../features/todos/todosSlice'
 
 interface Props {
   id: string
 }
 
 export const ContextMenu = ({ children, id }: PropsWithChildren<Props>) => {
+  const dispatch = useDispatch()
   const [contextMenu, setContextMenu] = useState<{
     mouseX: number;
     mouseY: number;
@@ -27,6 +30,15 @@ export const ContextMenu = ({ children, id }: PropsWithChildren<Props>) => {
     setContextMenu(null)
   }
 
+  const handleEdit = () => {
+    dispatch(setEditedTodo({ id, isEditing: true }))
+    setContextMenu(null)
+  }
+  const handleDelete = () => {
+    setContextMenu(null)
+    dispatch(deleteTodo(id))
+  }
+
   return (
     <Box>
       <Menu
@@ -39,8 +51,8 @@ export const ContextMenu = ({ children, id }: PropsWithChildren<Props>) => {
             : undefined
         }
       >
-        <MenuItem onClick={handleClose}>Edit</MenuItem>
-        <MenuItem onClick={handleClose}>Delete</MenuItem>
+        <MenuItem onClick={handleEdit}>Edit</MenuItem>
+        <MenuItem onClick={handleDelete}>Delete</MenuItem>
       </Menu>
       {/* @ts-ignore */}
       <Box onContextMenu={handleContextMenu} style={{ cursor: 'context-menu' }}>

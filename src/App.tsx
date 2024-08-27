@@ -8,6 +8,8 @@ import { ContextMenu } from './components/ContextMenu'
 function App() {
   const list = useSelector((state: RootState) => state.todos.list)
 
+  console.log(list, '--')
+
   return (
     <Box sx={{ p: 2 }}>
 
