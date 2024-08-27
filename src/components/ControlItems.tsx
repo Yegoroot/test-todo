@@ -1,6 +1,7 @@
-import { Box, Button, TextField } from '@mui/material'
+import { Box, IconButton, TextField } from '@mui/material'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
+import { Add } from '@mui/icons-material'
 import { todoAdded } from '../features/todos/todosSlice'
 
 export const ControlItems = () => {
@@ -15,12 +16,12 @@ export const ControlItems = () => {
   }
 
   return (
-    <Box sx={{ display: 'flex', gap: 1 }}>
+    <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
       <TextField
         value={title}
         onChange={(e) => setTitle(e.target.value)} sx={{ minWidth: 300 }} label="Write task title" variant="standard"
       />
-      <Button variant="contained" onClick={onCreateTask}>Add</Button>
+      <IconButton onClick={onCreateTask}><Add /></IconButton>
     </Box>
   )
 }

@@ -8,12 +8,10 @@ import { ContextMenu } from './components/ContextMenu'
 function App() {
   const list = useSelector((state: RootState) => state.todos.list)
 
-  console.log(list, '--')
-
   return (
     <Box sx={{ p: 2 }}>
 
-      <Box sx={{ mb: 4 }}>
+      <Box sx={{ mb: 4, display: 'flex', gap: 1.5, flexDirection: 'column' }}>
         {list.map((t) => (
           <ContextMenu id={t.id} key={t.id}>
             <TodoItem item={t} />

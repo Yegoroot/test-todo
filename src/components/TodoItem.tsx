@@ -17,7 +17,7 @@ export const TodoItem = ({ item }:{item: ITodoItem}) => {
   }
 
   return (
-    <Box sx={{ p: 1, display: 'flex', gap: 1, alignItems: 'center' }}>
+    <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
       <ToggleButton
         onClick={onToggleItem}
         value="check"
